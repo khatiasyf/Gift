@@ -3,57 +3,62 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>A surprise for you 🎁</title>
+<title>A birthday surprise 🎁</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
     font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
-    background: radial-gradient(circle at 50% 30%, #2b1f4a, #120c22);
-    color: #fff; overflow: hidden; text-align: center; padding: 24px;
+    background: #26215C; overflow: hidden; text-align: center; padding: 24px;
   }
-  .hint { font-size: 18px; opacity: .85; margin-bottom: 36px; animation: pulse 1.8s infinite; }
+  #hint { color: #EEEDFE; font-size: 18px; margin-bottom: 40px; animation: pulse 1.8s infinite; }
   @keyframes pulse { 50% { opacity: .4; } }
-  .box { position: relative; width: 180px; height: 170px; cursor: pointer; animation: wiggle 2.5s infinite; }
+  #box { position: relative; width: 180px; height: 170px; cursor: pointer; animation: wiggle 2.5s infinite; }
   @keyframes wiggle { 0%,80%,100% { transform: rotate(0); } 84% { transform: rotate(-6deg); } 88% { transform: rotate(6deg); } 92% { transform: rotate(-4deg); } 96% { transform: rotate(3deg); } }
-  .base { position: absolute; bottom: 0; left: 10px; width: 160px; height: 120px; background: #e84a6f; border-radius: 6px; }
-  .lid { position: absolute; top: 18px; left: 0; width: 180px; height: 38px; background: #ff5c85; border-radius: 6px; transition: transform .7s cubic-bezier(.3,1.6,.6,1), opacity .7s; z-index: 2; }
-  .ribbon-v { position: absolute; left: 50%; transform: translateX(-50%); width: 26px; height: 100%; background: #ffd34d; }
-  .bow { position: absolute; top: -22px; left: 50%; transform: translateX(-50%); font-size: 40px; line-height: 1; }
-  .opened .lid { transform: translateY(-160px) rotate(-30deg); opacity: 0; }
-  .opened { animation: none; }
-  .msg {
-    position: absolute; max-width: 420px; padding: 28px 26px; border-radius: 18px;
-    background: #fff; color: #2b1f4a; font-size: 22px; line-height: 1.45; font-weight: 600;
-    box-shadow: 0 20px 60px rgba(0,0,0,.4);
-    opacity: 0; transform: scale(.3) translateY(60px); pointer-events: none;
+  .base { position: absolute; bottom: 0; left: 10px; width: 160px; height: 120px; background: #D4537E; border-radius: 6px; }
+  .lid { position: absolute; top: 18px; left: 0; width: 180px; height: 38px; background: #ED93B1; border-radius: 6px; transition: transform .7s cubic-bezier(.3,1.6,.6,1), opacity .7s; z-index: 2; }
+  .rib { position: absolute; left: 50%; transform: translateX(-50%); width: 26px; height: 100%; background: #EF9F27; }
+  .bow { position: absolute; top: -22px; left: 50%; transform: translateX(-50%); width: 48px; height: 24px; border: 6px solid #EF9F27; border-radius: 50% 50% 0 0; }
+  #box.open .lid { transform: translateY(-160px) rotate(-30deg); opacity: 0; }
+  #box.open { animation: none; }
+  #msg {
+    position: absolute; left: 50%; top: 50%; width: calc(100% - 48px); max-width: 420px;
+    padding: 28px 24px; border-radius: 18px; background: #fff; color: #26215C;
+    font-size: 20px; line-height: 1.5; font-weight: 500;
+    opacity: 0; transform: translate(-50%, -50%) scale(.3); pointer-events: none;
     transition: all .6s cubic-bezier(.3,1.4,.6,1) .35s;
   }
-  .msg.show { opacity: 1; transform: scale(1) translateY(0); pointer-events: auto; }
-  .msg small { display: block; margin-top: 14px; font-size: 15px; font-weight: 400; opacity: .7; }
+  #msg.show { opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: auto; }
+  #msg .title { display: block; font-size: 26px; margin-bottom: 14px; color: #993556; }
+  #msg small { display: block; margin-top: 16px; font-size: 15px; font-weight: 400; color: #534AB7; }
   .confetti { position: fixed; top: -20px; width: 10px; height: 14px; border-radius: 2px; animation: fall linear forwards; }
   @keyframes fall { to { transform: translateY(110vh) rotate(720deg); } }
 </style>
 </head>
 <body>
-  <p class="hint" id="hint">Tap the box to open 👇</p>
-  <div class="box" id="box" role="button" aria-label="Open the gift">
-    <div class="base"><div class="ribbon-v"></div></div>
-    <div class="lid"><div class="ribbon-v"></div><div class="bow">🎀</div></div>
+  <p id="hint">A birthday surprise for you 🎁 Tap to open</p>
+
+  <div id="box" role="button" aria-label="Open the gift">
+    <div class="base"><div class="rib"></div></div>
+    <div class="lid"><div class="rib"></div><div class="bow"></div></div>
   </div>
-  <div class="msg" id="msg">
-    Surprise! 🎉<br>Thank you for being amazing — this one's for you!
+
+  <div id="msg">
+    <span class="title">Happy Birthday! 🎉</span>
+    Wishing you a long, healthy and happy life surrounded by your family.<br><br>
+    May God bless every step you take toward kindness and trust ❤️
     <small>— Khatia</small>
   </div>
+
 <script>
   const box = document.getElementById('box');
   box.addEventListener('click', () => {
-    if (box.classList.contains('opened')) return;
-    box.classList.add('opened');
+    if (box.classList.contains('open')) return;
+    box.classList.add('open');
     document.getElementById('hint').style.visibility = 'hidden';
     setTimeout(() => { box.style.transition = 'opacity .4s'; box.style.opacity = '0'; }, 500);
     document.getElementById('msg').classList.add('show');
-    const colors = ['#ffd34d','#ff5c85','#5ce1e6','#9b7bff','#7dff9b'];
+    const colors = ['#EF9F27', '#ED93B1', '#5DCAA5', '#AFA9EC', '#97C459'];
     for (let i = 0; i < 90; i++) {
       const c = document.createElement('div');
       c.className = 'confetti';
